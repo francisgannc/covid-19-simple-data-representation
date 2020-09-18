@@ -1,0 +1,74 @@
+<div><mat-spinner *ngIf="loading" class="center-block"></mat-spinner></div>
+<table
+  mat-table
+  [dataSource]="dataSource"
+  matSort
+  class="mat-elevation-z8 table"
+  *ngIf="dataSource?.filteredData.length && !loading"
+>
+  <ng-container matColumnDef="country">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Country</th>
+    <td mat-cell *matCellDef="let element">{{ element.country }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="newConfirmed">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>New Confirmed</th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.newConfirmed | number }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="totalConfirmed">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Confirmed</th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.totalConfirmed | number }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="newDeaths">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>New Deaths</th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.newDeaths | number }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="totalDeaths">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Deaths</th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.totalDeaths | number }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="newRecovered">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>New Recovered</th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.newRecovered | number }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="totalRecovered">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Recovered</th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.totalRecovered | number }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="date">
+    <th mat-header-cell *matHeaderCellDef>Date</th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.date | date }}
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
+
+<mat-paginator
+  [pageSizeOptions]="[15, 50, 100]"
+  showFirstLastButtons
+></mat-paginator>
+
+<mat-card *ngIf="!dataSource?.filteredData.length && !loading"
+  ><h2>no records found.</h2></mat-card
+>

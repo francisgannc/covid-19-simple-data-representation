@@ -1,0 +1,58 @@
+<mat-card>
+  <div class="mb-4">
+    <mat-form-field appearance="fill" class="search-field">
+      <mat-label>Country</mat-label>
+      <mat-select
+        [(ngModel)]="selectedCountry"
+        (selectionChange)="selectCountry(selectedCountry.Slug)"
+      >
+        <mat-option *ngFor="let info of countries" [value]="info">
+          {{ info.Country }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button
+      *ngIf="selectedCountry"
+      mat-flat-button
+      color="primary"
+      class="clear"
+      [disabled]="disableMoreInfo"
+      (click)="openMoreInfo()"
+    >
+      MORE INFO ABOUT {{ selectedCountry.Country | uppercase }}
+    </button>
+    <i>Country is required to enable status filter</i>
+  </div>
+  <mat-radio-group
+    aria-label="status"
+    [(ngModel)]="selectedStatus"
+    (change)="selectStatus($event.value)"
+    [disabled]="disableStatus"
+  >
+    <div>
+      <mat-radio-button value="" class="ml-1"> ALL </mat-radio-button>
+    </div>
+    <div>
+      <mat-radio-button value="confirmed" class="ml-1">
+        CONFIRMED
+      </mat-radio-button>
+    </div>
+    <div>
+      <mat-radio-button value="recovered" class="ml-1">
+        RECOVERED
+      </mat-radio-button>
+    </div>
+    <div>
+      <mat-radio-button value="deaths" class="ml-1"> DEATHS </mat-radio-button>
+    </div>
+  </mat-radio-group>
+  <button
+    mat-flat-button
+    color="warn"
+    class="mt-4 clear"
+    (click)="clearFilters()"
+  >
+    CLEAR
+  </button>
+</mat-card>

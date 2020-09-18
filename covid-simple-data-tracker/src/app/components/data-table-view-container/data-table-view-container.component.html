@@ -1,0 +1,24 @@
+<div class="container-fluid">
+  <app-banner></app-banner>
+  <app-world-stats></app-world-stats>
+  <div class="row mt-4">
+    <div class="col-md-2">
+      <app-filter-panel
+        (selectCountryEmit)="selectCountryEmit($event)"
+        (selectCountryStatusEmit)="selectCountryStatusEmit($event)"
+        (clearFiltersEmit)="clearFiltersEmit($event)"
+        (isLoading)="isLoading($event)"
+      ></app-filter-panel>
+    </div>
+    <div class="col-md-10">
+      <app-data-table
+        [bySummaryActive]="bySummaryActive"
+        [byCountryActive]="byCountryActive"
+        [byCountryStatusActive]="byCountryStatusActive"
+        [specificCountryData]="specificCountryData"
+        [specificCountryStatusData]="specificCountryStatusData"
+        [isFiltersCleared]="isFiltersCleared"
+      ></app-data-table>
+    </div>
+  </div>
+</div>
