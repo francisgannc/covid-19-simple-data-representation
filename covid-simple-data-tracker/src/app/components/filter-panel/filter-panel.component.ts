@@ -1,14 +1,15 @@
-import {
-  DataService,
-  CountryInfo,
-  SpecificCountryData,
-  SpecificCountryStatusData,
-  MoreInfo,
-} from './../../services/data.service';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { MoreInfoDialogComponent } from '../more-info-dialog/more-info-dialog.component';
+import {
+  CountryInfo,
+  MoreInfo,
+  SpecificCountryData,
+  SpecificCountryStatusData,
+  TestingData,
+} from 'src/app/models/models';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-filter-panel',
@@ -20,10 +21,9 @@ export class FilterPanelComponent implements OnInit {
   selectedCountry: CountryInfo;
   selectedStatus = '';
   disableStatus = true;
-  disableMoreInfo = false;
+  loading = false;
   moreInfoData: MoreInfo;
-
-  minDate: Date;
+  testingData: TestingData;
 
   @Output() selectCountryEmit = new EventEmitter<SpecificCountryData[]>();
   @Output() selectCountryStatusEmit = new EventEmitter<
@@ -39,9 +39,10 @@ export class FilterPanelComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.minDate = new Date(2019, 0, 1);
+    this.loading = true;
     this.dataService.getAllCountryInfo().subscribe((value) => {
       this.countries = value;
+      this.loading = false;
     });
   }
 
@@ -67,11 +68,11 @@ export class FilterPanelComponent implements OnInit {
 
   selectStatus(status: string) {
     if (!this.selectedStatus) {
-      this.selectCountry(this.selectedCountry.Slug);
+      this.selectCountry(this.selectedCountry.slug);
     } else {
       this.isLoading.emit(true);
       this.dataService
-        .getByCountryStatus(this.selectedCountry.Slug, status)
+        .getByCountryStatus(this.selectedCountry.slug, status)
         .subscribe((value) => {
           this.selectCountryStatusEmit.emit(value);
           this.isLoading.emit(false);
@@ -86,15 +87,28 @@ export class FilterPanelComponent implements OnInit {
   }
 
   getMoreInfo() {
+    this.moreInfoData = null;
     this.dataService
-      .getMoreInfo(this.selectedCountry.Slug)
+      .getMoreInfo(this.selectedCountry.slug)
       .subscribe((data) => {
         if (data[0]) {
           this.moreInfoData = data[0];
-          this.disableMoreInfo = false;
+          this.getTestingData();
         } else {
           this.moreInfoData = null;
-          this.disableMoreInfo = true;
+          this.testingData = null;
+        }
+      });
+  }
+
+  getTestingData() {
+    this.dataService
+      .getTestingData(this.selectedCountry.slug)
+      .subscribe((data) => {
+        if (data && data.length > 0 && data[data.length - 1]) {
+          this.testingData = data[data.length - 1];
+        } else {
+          this.testingData = null;
         }
       });
   }
@@ -114,9 +128,10 @@ export class FilterPanelComponent implements OnInit {
 
   openMoreInfo(): void {
     const dialogRef = this.dialog.open(MoreInfoDialogComponent, {
-      width: '40%',
-      height: '70%',
-      data: this.moreInfoData,
+      width: '80%',
+      height: '60%',
+      disableClose: true,
+      data: { moreInfo: this.moreInfoData, testingData: this.testingData },
     });
 
     dialogRef.afterClosed().subscribe((result) => {

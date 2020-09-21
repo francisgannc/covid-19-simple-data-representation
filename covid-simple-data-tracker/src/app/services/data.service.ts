@@ -3,77 +3,23 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import * as moment from 'moment';
-
-export interface Country extends Global {
-  country: string;
-  date: string;
-}
-
-export interface Global {
-  newConfirmed: number;
-  totalConfirmed: number;
-  newDeaths: number;
-  totalDeaths: number;
-  newRecovered: number;
-  totalRecovered: number;
-}
-
-export interface Summary {
-  Countries: any[];
-  Date: string;
-  Global: Global;
-  Message: string;
-}
-
-export interface WorldStats {
-  TotalConfirmed: number;
-  TotalDeaths: number;
-  TotalRecovered: number;
-}
-
-export interface CountryInfo {
-  Country: string;
-  Slug: string;
-  ISO2: string;
-}
-
-export interface SpecificCountryData {
-  Country: string;
-  Date: string;
-  Confirmed: number;
-  Recovered: number;
-  Deaths: number;
-  Active: number;
-}
-
-export interface SpecificCountryStatusData {
-  Country: string;
-  Date: string;
-  Status: number;
-  Cases: number;
-}
-
-export interface MoreInfo {
-  Country: string;
-  Continent: string;
-  Population: number;
-  PopulationDensity: number;
-  MedianAge: number;
-  Aged65Older: number;
-  Aged70Older: number;
-  ExtremePoverty: number;
-  CvdDeathRate: number;
-  DiabetesPrevalence: number;
-  HandwashingFacilities: number;
-  HospitalBedsPerThousand: number;
-  LifeExpectancy: number;
-  FemaleSmokers: number;
-  MaleSmokers: number;
-}
+import { Country, CountryInfo, MoreInfo, SpecificCountryData, SpecificCountryStatusData, TestingData, WorldStats } from '../models/models';
 
 @Injectable()
 export class DataService {
   apiURLBase = 'https://api.covid19api.com';
+  premium = '/premium/country';
+
+  token = '5cf9dfd5-3449-485e-b5ae-70a60e997864';
+
+  authHeaders = new HttpHeaders({
+    'X-Access-Token': this.token,
+    Authorization: this.token,
+  });
+
+  xAccessTokenHeader = new HttpHeaders({
+    'X-Access-Token': this.token,
+  });
 
   constructor(private http: HttpClient) {}
 
@@ -82,18 +28,28 @@ export class DataService {
   }
 
   getAllCountryInfo(): Observable<CountryInfo[]> {
-    return this.http.get<CountryInfo[]>(`${this.apiURLBase}/countries`);
+    return this.http.get<any[]>(`${this.apiURLBase}/countries`).pipe(
+      map((response) =>
+        response.map((res) => {
+          let value: CountryInfo = {
+            country: res.Country,
+            slug: res.Slug,
+          };
+          return value;
+        })
+      )
+    );
   }
 
   getSummary(): Observable<Country[]> {
     return this.http
-      .get<Summary>(`${this.apiURLBase}/summary`, {
-        headers: { 'X-Access-Token': '5cf9dfd5-3449-485e-b5ae-70a60e997864' },
+      .get<any>(`${this.apiURLBase}/summary`, {
+        headers: this.xAccessTokenHeader,
       })
       .pipe(
         map((response) =>
           response.Countries.map((res) => {
-            let country: Country = {
+            let value: Country = {
               country: res.Country,
               date: res.Date,
               newConfirmed: res.NewConfirmed,
@@ -103,7 +59,7 @@ export class DataService {
               newRecovered: res.NewRecovered,
               totalRecovered: res.TotalRecovered,
             };
-            return country;
+            return value;
           })
         )
       );
@@ -126,18 +82,18 @@ export class DataService {
 
     const apiUrl = `${this.apiURLBase}/country/${country}?from=${lessAday}T00:00:00Z&to=${today}T00:00:00Z`;
 
-    return this.http.get<SpecificCountryData[]>(apiUrl).pipe(
+    return this.http.get<any[]>(apiUrl).pipe(
       map((response) =>
         response.map((res) => {
-          let country: SpecificCountryData = {
-            Country: res.Country,
-            Date: res.Date,
-            Confirmed: res.Confirmed,
-            Deaths: res.Deaths,
-            Recovered: res.Recovered,
-            Active: res.Active,
+          let value: SpecificCountryData = {
+            country: res.Country,
+            date: res.Date,
+            confirmed: res.Confirmed,
+            deaths: res.Deaths,
+            recovered: res.Recovered,
+            active: res.Active,
           };
-          return country;
+          return value;
         })
       )
     );
@@ -163,33 +119,73 @@ export class DataService {
 
     const apiUrl = `${this.apiURLBase}/country/${country}/status/${status}?from=${lessAday}T00:00:00Z&to=${today}T00:00:00Z`;
 
-    return this.http.get<SpecificCountryStatusData[]>(apiUrl).pipe(
+    return this.http.get<any[]>(apiUrl).pipe(
       map((response) =>
         response.map((res) => {
-          let country: SpecificCountryStatusData = {
-            Country: res.Country,
-            Date: res.Date,
-            Status: res.Status,
-            Cases: res.Cases,
+          let value: SpecificCountryStatusData = {
+            country: res.Country,
+            date: res.Date,
+            status: res.Status,
+            cases: res.Cases,
           };
-          return country;
+          return value;
         })
       )
     );
   }
 
-  getMoreInfo(country: string): Observable<MoreInfo> {
+  getMoreInfo(country: string): Observable<MoreInfo[]> {
     return this.http
-      .get<MoreInfo>(`${this.apiURLBase}/premium/country/data/${country}`, {
-        headers: {
-          'X-Access-Token': '5cf9dfd5-3449-485e-b5ae-70a60e997864',
-          Authorization: '5cf9dfd5-3449-485e-b5ae-70a60e997864',
-        },
+      .get<any[]>(`${this.apiURLBase}${this.premium}/data/${country}`, {
+        headers: this.authHeaders,
       })
       .pipe(
-        map((response) => {
-          return response;
-        })
+        map((response) =>
+          response.map((res) => {
+            let value: MoreInfo = {
+              country: res.Country,
+              continent: res.Continent,
+              population: res.Population,
+              populationDensity: res.PopulationDensity,
+              medianAge: res.MedianAge,
+              aged65Older: res.Aged65Older,
+              aged70Older: res.Aged70Older,
+              cvdDeathRate: res.CvdDeathRate,
+              diabetesPrevalence: res.DiabetesPrevalence,
+              handwashingFacilities: res.HandwashingFacilities,
+              hospitalBedsPerThousand: res.HospitalBedsPerThousand,
+              lifeExpectancy: res.LifeExpectancy,
+            };
+            return value;
+          })
+        )
+      );
+  }
+
+  getTestingData(country: string): Observable<TestingData[]> {
+    return this.http
+      .get<any[]>(`${this.apiURLBase}${this.premium}/testing/${country}`, {
+        headers: this.authHeaders,
+      })
+      .pipe(
+        map((response) =>
+          response.map((res) => {
+            let value: TestingData = {
+              country: res.Entity,
+              date: res.Date,
+              source: res.Source,
+              sourceURL: res.SourceURL,
+              notes: res.Notes,
+              dailyChangeCumulativeTotal: res.DailyChangeCumulativeTotal,
+              cumulativeTotal: res.CumulativeTotal,
+              dailyChangeCumulativeTotalPerThousand: res.DailyChangeCumulativeTotalPerThousand,
+              cumulativeTotalPerThousand: res.CumulativeTotalPerThousand,
+              sevenDaySmoothedDailyChange: res.SevenDaySmoothedDailyChange,
+              sevenDaySmoothDailyChangePerThousand: res.SevenDaySmoothDailyChangePerThousand,
+            };
+            return value;
+          })
+        )
       );
   }
 }

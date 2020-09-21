@@ -4,16 +4,15 @@ import {
   ViewChild,
   Input,
   AfterViewInit,
+  ViewEncapsulation,
   Output,
   EventEmitter,
-  ViewEncapsulation,
-  AfterContentInit,
-  AfterViewChecked,
 } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { Country, DataService } from 'src/app/services/data.service';
+import { DataService } from 'src/app/services/data.service';
 import { MatTableDataSource } from '@angular/material/table';
+import { SpecificCountryData } from 'src/app/models/models';
 
 @Component({
   selector: 'app-data-table-summary',
@@ -41,12 +40,19 @@ export class DataTableSummaryComponent implements OnInit, AfterViewInit {
   }
 
   @Input()
-  specificCountryData: Country;
+  specificCountryData: SpecificCountryData;
 
   @Input()
   isFiltersCleared: boolean;
 
+  @Input()
+  loading: boolean;
+
+  @Output()
+  isLoading = new EventEmitter<boolean>();
+
   displayedColumns: string[] = [
+    'number',
     'country',
     'newConfirmed',
     'totalConfirmed',
@@ -57,7 +63,7 @@ export class DataTableSummaryComponent implements OnInit, AfterViewInit {
     'date',
   ];
   dataSource = new MatTableDataSource();
-  loading = false;
+  activeSort = '';
 
   constructor(private dataService: DataService) {}
 
@@ -68,17 +74,28 @@ export class DataTableSummaryComponent implements OnInit, AfterViewInit {
   }
 
   loadData() {
-    this.loading = true;
+    this.isLoading.emit(true);
     this.dataService.getSummary().subscribe((value) => {
       this.dataSource = new MatTableDataSource(value);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
-      this.loading = false;
+      this.isLoading.emit(false);
     });
   }
 
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
+  }
+
+  clickSort(sort: string) {
+    this.activeSort = sort;
+  }
+
+  ngClassArg(sort: string) {
+    return {
+      active: sort === this.activeSort,
+      header: sort != this.activeSort,
+    };
   }
 }

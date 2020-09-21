@@ -1,4 +1,3 @@
-<div><mat-spinner *ngIf="loading" class="center-block"></mat-spinner></div>
 <table
   mat-table
   [dataSource]="dataSource"
@@ -6,28 +5,28 @@
   *ngIf="dataSource?.filteredData.length && !loading"
 >
   <ng-container matColumnDef="country">
-    <th mat-header-cell *matHeaderCellDef>Country</th>
-    <td mat-cell *matCellDef="let element">{{ element.Country }}</td>
+    <th mat-header-cell *matHeaderCellDef><div class="header">COUNTRY</div></th>
+    <td mat-cell *matCellDef="let element">{{ element.country }}</td>
   </ng-container>
 
   <ng-container matColumnDef="status">
-    <th mat-header-cell *matHeaderCellDef>Status</th>
+    <th mat-header-cell *matHeaderCellDef><div class="header">STATUS</div></th>
     <td mat-cell *matCellDef="let element">
-      {{ element.Status | uppercase }}
+      {{ element.status | uppercase }}
     </td>
   </ng-container>
 
   <ng-container matColumnDef="cases">
-    <th mat-header-cell *matHeaderCellDef>Cases</th>
+    <th mat-header-cell *matHeaderCellDef><div class="header">CASES</div></th>
     <td mat-cell *matCellDef="let element">
-      {{ element.Cases | number }}
+      {{ element.cases | number }}
     </td>
   </ng-container>
 
   <ng-container matColumnDef="date">
-    <th mat-header-cell *matHeaderCellDef>Date</th>
+    <th mat-header-cell *matHeaderCellDef><div class="header">DATE</div></th>
     <td mat-cell *matCellDef="let element">
-      {{ element.Date | date }}
+      {{ element.date | date }}
     </td>
   </ng-container>
 

@@ -3,24 +3,24 @@
     <mat-form-field appearance="fill" class="search-field">
       <mat-label>Country</mat-label>
       <mat-select
-        [(ngModel)]="selectedCountry"
-        (selectionChange)="selectCountry(selectedCountry.Slug)"
+        [(value)]="selectedCountry"
+        (selectionChange)="selectCountry(selectedCountry.slug)"
       >
         <mat-option *ngFor="let info of countries" [value]="info">
-          {{ info.Country }}
+          {{ info.country }}
         </mat-option>
       </mat-select>
+      <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
     </mat-form-field>
-
     <button
       *ngIf="selectedCountry"
       mat-flat-button
       color="primary"
       class="clear"
-      [disabled]="disableMoreInfo"
+      [disabled]="!moreInfoData"
       (click)="openMoreInfo()"
     >
-      MORE INFO ABOUT {{ selectedCountry.Country | uppercase }}
+      MORE INFO ABOUT {{ selectedCountry.country | uppercase }}
     </button>
     <i>Country is required to enable status filter</i>
   </div>

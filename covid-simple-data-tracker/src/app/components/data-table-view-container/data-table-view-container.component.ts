@@ -1,14 +1,14 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
-  Country,
   SpecificCountryData,
   SpecificCountryStatusData,
-} from 'src/app/services/data.service';
+} from 'src/app/models/models';
 
 @Component({
   selector: 'app-data-table-view-container',
   templateUrl: './data-table-view-container.component.html',
   styleUrls: ['./data-table-view-container.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DataTableViewContainerComponent implements OnInit {
   bySummaryActive = true;

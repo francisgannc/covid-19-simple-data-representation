@@ -1,66 +1,119 @@
-<mat-list role="list">
-  <mat-list-item role="listitem" class="row">
-    <h2 class="col-md-5">Country :</h2>
-    <h2>{{ data.Country }}</h2>
-  </mat-list-item>
-  <mat-list-item role="listitem" class="row">
-    <h3 class="col-md-5">Continent :</h3>
-    <h3>{{ data.Continent }}</h3>
-  </mat-list-item>
-  <mat-list-item role="listitem" class="row">
-    <h3 class="col-md-5">Population :</h3>
-    <h3>{{ data.Population | number }}</h3>
-  </mat-list-item>
-  <mat-list-item role="listitem" class="row">
-    <h3 class="col-md-5">Population Density :</h3>
-    <h3>{{ data.PopulationDensity | number }}</h3>
-  </mat-list-item>
-  <mat-list-item role="listitem" class="row">
-    <h3 class="col-md-5">Median Age :</h3>
-    <h3>{{ data.MedianAge | number }}</h3>
-  </mat-list-item>
-  <mat-list-item role="listitem" class="row">
-    <h3 class="col-md-5">% of Age older than 65 :</h3>
-    <h3>{{ data.Aged65Older | number }} %</h3>
-  </mat-list-item>
-  <mat-list-item role="listitem" class="row">
-    <h3 class="col-md-5">% of Age older than 70 :</h3>
-    <h3>{{ data.Aged70Older | number }} %</h3>
-  </mat-list-item>
-  <mat-list-item role="listitem" class="row">
-    <h3 class="col-md-5">Extreme Poverty :</h3>
-    <h3>{{ data.ExtremePoverty | number }}</h3>
-  </mat-list-item>
-  <mat-list-item role="listitem" class="row">
-    <h3 class="col-md-5">Cardio Vascular Disease Death Rate :</h3>
-    <h3>{{ data.CvdDeathRate | number }}</h3>
-  </mat-list-item>
-  <mat-list-item role="listitem" class="row">
-    <h3 class="col-md-5">Diabetes Prevalence :</h3>
-    <h3>{{ data.DiabetesPrevalence | number }}</h3>
-  </mat-list-item>
-  <mat-list-item role="listitem" class="row">
-    <h3 class="col-md-5">Handwashing Facilities :</h3>
-    <h3>{{ data.HandwashingFacilities | number }}</h3>
-  </mat-list-item>
-  <mat-list-item role="listitem" class="row">
-    <h3 class="col-md-5">Hospital Beds Per Thousand :</h3>
-    <h3>{{ data.HospitalBedsPerThousand | number }}</h3>
-  </mat-list-item>
-  <mat-list-item role="listitem" class="row">
-    <h3 class="col-md-5">Life Expectancy :</h3>
-    <h3>{{ data.LifeExpectancy | number }}</h3>
-  </mat-list-item>
-  <mat-list-item role="listitem" class="row">
-    <h3 class="col-md-5">Female Smokers :</h3>
-    <h3>{{ data.FemaleSmokers | number }}</h3>
-  </mat-list-item>
-  <mat-list-item role="listitem" class="row">
-    <h3 class="col-md-5">Male Smokers :</h3>
-    <h3>{{ data.MaleSmokers | number }}</h3>
-  </mat-list-item>
-</mat-list>
+<div class="pb-4">
+  <div class="row">
+    <div class="col-md-5" *ngIf="moreInfo">
+      <mat-list role="list">
+        <mat-list-item role="listitem" class="row">
+          <h2 class="col-md-5">Country :</h2>
+          <h2>{{ moreInfo.country }}</h2>
+        </mat-list-item>
+        <mat-list-item role="listitem" class="row">
+          <h3 class="col-md-5">Continent :</h3>
+          <h3>{{ moreInfo.continent }}</h3>
+        </mat-list-item>
+        <mat-list-item role="listitem" class="row">
+          <h3 class="col-md-5">Population :</h3>
+          <h3>{{ moreInfo.population | number }}</h3>
+        </mat-list-item>
+        <mat-list-item role="listitem" class="row">
+          <h3 class="col-md-5">Population Density :</h3>
+          <h3>{{ moreInfo.populationDensity | number }}</h3>
+        </mat-list-item>
+        <mat-list-item role="listitem" class="row">
+          <h3 class="col-md-5">Median Age :</h3>
+          <h3>{{ moreInfo.medianAge | number }}</h3>
+        </mat-list-item>
+        <mat-list-item role="listitem" class="row">
+          <h3 class="col-md-5">% of Age older than 65 :</h3>
+          <h3>{{ moreInfo.aged65Older | number }} %</h3>
+        </mat-list-item>
+        <mat-list-item role="listitem" class="row">
+          <h3 class="col-md-5">% of Age older than 70 :</h3>
+          <h3>{{ moreInfo.aged70Older | number }} %</h3>
+        </mat-list-item>
+        <mat-list-item role="listitem" class="row">
+          <h3 class="col-md-5">Cardio Vascular Disease Death Rate :</h3>
+          <h3>{{ moreInfo.cvdDeathRate | number }}</h3>
+        </mat-list-item>
+        <mat-list-item role="listitem" class="row">
+          <h3 class="col-md-5">Diabetes Prevalence :</h3>
+          <h3>{{ moreInfo.diabetesPrevalence | number }}</h3>
+        </mat-list-item>
+        <mat-list-item role="listitem" class="row">
+          <h3 class="col-md-5">Handwashing Facilities :</h3>
+          <h3>{{ moreInfo.handwashingFacilities | number }}</h3>
+        </mat-list-item>
+        <mat-list-item role="listitem" class="row">
+          <h3 class="col-md-5">Hospital Beds Per Thousand :</h3>
+          <h3>{{ moreInfo.hospitalBedsPerThousand | number }}</h3>
+        </mat-list-item>
+        <mat-list-item role="listitem" class="row">
+          <h3 class="col-md-5">Life Expectancy :</h3>
+          <h3>{{ moreInfo.lifeExpectancy | number }}</h3>
+        </mat-list-item>
+      </mat-list>
+    </div>
+    <div class="col-md-7">
+      <div *ngIf="testingData">
+        <div class="mb-5">
+          <h1>
+            TESTING STATISTICS AS OF {{ testingData.date | date | uppercase }}
+          </h1>
+          <h2>{{ testingData.source }}</h2>
+          <a [href]="testingData.sourceURL" target="_blank">
+            {{ testingData.sourceURL }}
+          </a>
+        </div>
+        <div>
+          <mat-list role="list">
+            <mat-list-item role="listitem" class="row">
+              <h3 class="col-md-5">Daily Change Cumulative Total :</h3>
+              <h3>{{ testingData.dailyChangeCumulativeTotal | number }}</h3>
+            </mat-list-item>
+            <mat-list-item role="listitem" class="row">
+              <h3 class="col-md-5">Cumulative Total :</h3>
+              <h3>{{ testingData.cumulativeTotal | number }}</h3>
+            </mat-list-item>
+            <mat-list-item role="listitem" class="row">
+              <h3 class="col-md-5">Cumulative Total Per Thousand :</h3>
+              <h3>{{ testingData.cumulativeTotalPerThousand | number }}</h3>
+            </mat-list-item>
+            <mat-list-item role="listitem" class="row">
+              <h3 class="col-md-5">
+                Daily Change Cumulative Total Per Thousand :
+              </h3>
+              <h3>
+                {{ testingData.dailyChangeCumulativeTotalPerThousand | number }}
+              </h3>
+            </mat-list-item>
+            <mat-list-item role="listitem" class="row">
+              <h3 class="col-md-5">Seven (7) Day Smoothed Daily Change :</h3>
+              <h3>{{ testingData.sevenDaySmoothedDailyChange | number }}</h3>
+            </mat-list-item>
+            <mat-list-item role="listitem" class="row">
+              <h3 class="col-md-5">
+                Seven (7) Day Smooth Daily Change Per Thousand :
+              </h3>
+              <h3>
+                {{ testingData.sevenDaySmoothDailyChangePerThousand | number }}
+              </h3>
+            </mat-list-item>
+          </mat-list>
+        </div>
+        <div class="mt-5" *ngIf="testingData.notes">
+          <h3>
+            <i>*Notes : " {{ testingData.notes }} "</i>
+          </h3>
+        </div>
+      </div>
 
-<div mat-dialog-actions>
-  <button mat-flat-button color="accent" (click)="onNoClick()">Close</button>
+      <div *ngIf="!testingData">
+        <h1>TESTING STATISTICS</h1>
+        <h2>no records found</h2>
+      </div>
+    </div>
+  </div>
+
+  <div mat-dialog-actions>
+    <button mat-flat-button color="accent" (click)="onNoClick()">Close</button>
+  </div>
 </div>

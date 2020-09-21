@@ -1,21 +1,23 @@
 import {
-  SpecificCountryData,
-  SpecificCountryStatusData,
-} from './../../services/data.service';
-import {
   Component,
   OnInit,
   Input,
   OnChanges,
   SimpleChanges,
   ViewEncapsulation,
+  ChangeDetectionStrategy,
 } from '@angular/core';
+import {
+  SpecificCountryData,
+  SpecificCountryStatusData,
+} from 'src/app/models/models';
 
 @Component({
   selector: 'app-data-table',
   templateUrl: './data-table.component.html',
   styleUrls: ['./data-table.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DataTableComponent implements OnInit, OnChanges {
   @Input()
@@ -44,4 +46,8 @@ export class DataTableComponent implements OnInit, OnChanges {
   ngOnInit(): void {}
 
   ngOnChanges(changes: SimpleChanges): void {}
+
+  isLoading(emit: boolean) {
+    this.loading = emit;
+  }
 }

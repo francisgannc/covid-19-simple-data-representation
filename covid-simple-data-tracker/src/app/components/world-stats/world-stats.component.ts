@@ -1,5 +1,6 @@
-import { DataService, WorldStats } from './../../services/data.service';
 import { Component, OnInit } from '@angular/core';
+import { WorldStats } from 'src/app/models/models';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-world-stats',

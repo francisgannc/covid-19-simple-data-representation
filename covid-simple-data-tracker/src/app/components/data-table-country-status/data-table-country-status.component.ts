@@ -1,15 +1,12 @@
-import { SpecificCountryStatusData } from './../../services/data.service';
-import { SpecificCountryData } from 'src/app/services/data.service';
 import {
   Component,
   OnInit,
   OnChanges,
-  ViewChild,
   Input,
   SimpleChanges,
-  AfterViewInit,
 } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { SpecificCountryStatusData } from 'src/app/models/models';
 
 @Component({
   selector: 'app-data-table-country-status',

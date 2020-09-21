@@ -1,15 +1,12 @@
-import { SpecificCountryData } from 'src/app/services/data.service';
 import {
   Component,
   OnInit,
-  ViewChild,
   Input,
   OnChanges,
   SimpleChanges,
-  AfterViewInit,
 } from '@angular/core';
-import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { SpecificCountryData } from 'src/app/models/models';
 
 @Component({
   selector: 'app-data-table-country',
@@ -29,6 +26,7 @@ export class DataTableCountryComponent implements OnInit, OnChanges {
     'date',
   ];
   dataSource = new MatTableDataSource([]);
+  
   @Input()
   loading: boolean;
 
