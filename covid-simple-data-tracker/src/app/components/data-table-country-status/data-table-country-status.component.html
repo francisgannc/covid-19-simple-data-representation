@@ -1,0 +1,39 @@
+<table
+  mat-table
+  [dataSource]="dataSource"
+  class="mat-elevation-z8 table"
+  *ngIf="dataSource?.filteredData.length && !loading"
+>
+  <ng-container matColumnDef="country">
+    <th mat-header-cell *matHeaderCellDef><div class="header">COUNTRY</div></th>
+    <td mat-cell *matCellDef="let element">{{ element.country }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef><div class="header">STATUS</div></th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.status | uppercase }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="cases">
+    <th mat-header-cell *matHeaderCellDef><div class="header">CASES</div></th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.cases | number }}
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="date">
+    <th mat-header-cell *matHeaderCellDef><div class="header">DATE</div></th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.date | date }}
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>
+
+<mat-card *ngIf="!dataSource?.filteredData.length && !loading"
+  ><h2>no records found.</h2></mat-card
+>

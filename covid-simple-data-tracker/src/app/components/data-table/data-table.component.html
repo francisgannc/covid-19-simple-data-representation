@@ -1,0 +1,18 @@
+<mat-card class="container-fluid">
+  <div><mat-spinner *ngIf="loading" class="center-block"></mat-spinner></div>
+  <app-data-table-summary
+    *ngIf="bySummaryActive"
+    (isLoading)="isLoading($event)"
+    [loading]="loading"
+  ></app-data-table-summary>
+  <app-data-table-country
+    *ngIf="byCountryActive"
+    [data]="specificCountryData"
+    [loading]="loading"
+  ></app-data-table-country>
+  <app-data-table-country-status
+    *ngIf="byCountryStatusActive"
+    [data]="specificCountryStatusData"
+    [loading]="loading"
+  ></app-data-table-country-status>
+</mat-card>

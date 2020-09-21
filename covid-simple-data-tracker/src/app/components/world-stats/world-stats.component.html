@@ -1,0 +1,29 @@
+<mat-card>
+  <div class="row">
+    <div class="col-md-3">
+      <h1>WORLD STATICS</h1>
+      <label>These records are pulled every 10 minutes.</label>
+    </div>
+    <div class="col-md-3">
+      <h2>Total Confirmed</h2>
+      <div *ngIf="loading">
+        <mat-spinner class="center-block"></mat-spinner>
+      </div>
+      <h1>{{ worldStats?.totalConfirmed | number }}</h1>
+    </div>
+    <div class="col-md-3">
+      <h2>Total Deaths</h2>
+      <div *ngIf="loading">
+        <mat-spinner class="center-block"></mat-spinner>
+      </div>
+      <h1>{{ worldStats?.totalDeaths | number }}</h1>
+    </div>
+    <div class="col-md-3">
+      <h2>Total Recovered</h2>
+      <div *ngIf="loading">
+        <mat-spinner class="center-block"></mat-spinner>
+      </div>
+      <h1>{{ worldStats?.totalRecovered | number }}</h1>
+    </div>
+  </div>
+</mat-card>
